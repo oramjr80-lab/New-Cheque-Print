@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>برنامج طباعة الشيكات - بيع و تحميل</title>
+
+    <!-- خط عربي جميل (اختياري، يحتاج إنترنت) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1d7bff;
+            --primary-dark: #1254b3;
+            --accent: #00c288;
+            --bg: #f5f7fb;
+            --text: #222;
+            --muted: #666;
+            --card-bg: #ffffff;
+            --radius-lg: 18px;
+            --radius-xl: 26px;
+            --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Tajawal", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #eef4ff 0, #f7f8fc 45%, #f5f7fb 100%);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Layout */
+
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(245, 247, 251, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+        }
+
+        .logo-text-main {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .logo-text-sub {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            padding: 6px 10px;
+            border-radius: 999px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            border-radius: 999px;
+            padding: 9px 18px;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 32px rgba(37, 99, 235, 0.45);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            color: var(--muted);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            background: rgba(37, 99, 235, 0.03);
+        }
+
+        /* Hero */
+
+        .hero {
+            padding: 36px 0 36px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(34, 197, 94, 0.09);
+            color: #15803d;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
+        .hero-highlight {
+            color: var(--primary-dark);
+        }
+
+        .hero-subtitle {
+            font-size: 0.98rem;
+            color: var(--muted);
+            max-width: 480px;
+            margin-bottom: 18px;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .hero-meta-item strong {
+            color: #0f172a;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px 18px 16px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .hero-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .hero-card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .hero-card-pill {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.07);
+            color: var(--primary-dark);
+        }
+
+        .hero-card-body {
+            background: #0f172a;
+            border-radius: 14px;
+            padding: 14px;
+            color: #e5e7eb;
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card-body::before {
+            content: "";
+            position: absolute;
+            inset: -40px;
+            opacity: 0.12;
+            background: radial-gradient(circle at 0 0, #38bdf8 0, transparent 50%),
+                        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%);
+        }
+
+        .hero-code-line {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .hero-code-label {
+            color: #9ca3af;
+        }
+
+        .hero-code-value {
+            color: #e5e7eb;
+        }
+
+        .hero-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.78rem;
+            color: #9ca3af;
+        }
+
+        .hero-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+        }
+
+        /* Sections */
+
+        section {
+            padding: 40px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        /* Features */
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 16px 14px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .feature-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: rgba(37, 99, 235, 0.06);
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-title {
+            font-size: 0.98rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .feature-text {
+            font-size: 0.86rem;
+            color: var(--muted);
+        }
+
+        /* Pricing */
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 20px 18px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.highlight {
+            border-color: var(--primary);
+            box-shadow: 0 14px 40px rgba(37, 99, 235, 0.35);
+        }
+
+        .pricing-chip {
+            position: absolute;
+            top: 12px;
+            left: 16px;
+            font-size: 0.7rem;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.07);
+            color: var(--primary-dark);
+        }
+
+        .pricing-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .pricing-desc {
+            font-size: 0.83rem;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+            color: #0f172a;
+        }
+
+        .pricing-period {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .pricing-list {
+            list-style: none;
+            font-size: 0.83rem;
+            color: #475569;
+            margin-bottom: 14px;
+        }
+
+        .pricing-list li {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .pricing-list li::before {
+            content: "•";
+            color: var(--accent);
+            margin-top: 2px;
+        }
+
+        /* Steps */
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            border: 1px dashed rgba(148, 163, 184, 0.7);
+        }
+
+        .step-number {
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .step-text {
+            font-size: 0.84rem;
+            color: var(--muted);
+        }
+
+        /* FAQ + Contact */
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 12px 14px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            margin-bottom: 10px;
+        }
+
+        .faq-q {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .faq-a {
+            font-size: 0.84rem;
+            color: var(--muted);
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: var(--radius-xl);
+            padding: 18px 18px 16px;
+            color: #e5e7eb;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .contact-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .contact-text {
+            font-size: 0.85rem;
+            color: #cbd5f5;
+            margin-bottom: 10px;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .contact-label {
+            font-size: 0.8rem;
+            color: #cbd5f5;
+        }
+
+        .contact-input,
+        .contact-textarea {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 0.84rem;
+            background: rgba(15, 23, 42, 0.85);
+            color: #e5e7eb;
+            outline: none;
+        }
+
+        .contact-input:focus,
+        .contact-textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4);
+        }
+
+        .contact-textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        footer {
+            padding: 16px 0 22px;
+            border-top: 1px solid rgba(148, 163, 184, 0.3);
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+        }
+
+        /* Mobile */
+
+        .nav-toggle {
+            display: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: #0f172a;
+            border-radius: 999px;
+            margin: 3px 0;
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .hero {
+                padding-top: 22px;
+            }
+
+            .pricing-grid,
+            .features-grid,
+            .steps-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .faq-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            header {
+                position: static;
+            }
+
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-links.mobile-open,
+            .nav-cta.mobile-open {
+                display: flex;
+            }
+
+            .nav-links.mobile-open {
+                flex-direction: column;
+                align-items: flex-start;
+                background: rgba(248, 250, 252, 0.98);
+                padding: 10px 0;
+                margin-top: 6px;
+                border-radius: 12px;
+                border: 1px solid rgba(148, 163, 184, 0.4);
+            }
+
+            .nav-cta.mobile-open {
+                margin-top: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-icon">ش</div>
+                <div>
+                    <div class="logo-text-main">برنامج طباعة الشيكات</div>
+                    <div class="logo-text-sub">حل بسيط ومهني لطباعة الشيكات</div>
+                </div>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#features">المزايا</a>
+                <a href="#pricing">الأسعار</a>
+                <a href="#how-it-works">كيف يعمل؟</a>
+                <a href="#faq">الأسئلة الشائعة</a>
+            </div>
+            <div class="nav-cta" id="navCta">
+                <a href="#contact" class="btn btn-outline">تواصل معنا</a>
+                <!-- عدّل رقم الواتساب أدناه -->
+                <a href="https://wa.me/962782648502" target="_blank" class="btn btn-primary">
+                    شراء عبر الواتساب
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="container hero-grid">
+            <div>
+                <div class="hero-badge">
+                    ✔ متوافق مع إكسل &nbsp;•&nbsp; مناسب للشركات والمحاسبين
+                </div>
+                <h1 class="hero-title">
+                    سهِّل إدارة و<span class="hero-highlight">طباعة الشيكات</span>
+                    باحترافية في دقائق.
+                </h1>
+                <p class="hero-subtitle">
+                    برنامج مكتبي يعتمد على إكسل مع واجهة إدخال سهلة، يوفر لك طباعة دقيقة للشيكات،
+                    أرشفة تلقائية، وتقارير جاهزة بدون تعقيد أنظمة المحاسبة الكبيرة.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="#pricing" class="btn btn-primary">
+                        شاهد الأسعار واطلب الآن
+                    </a>
+                    <!-- عدّل رقم الواتساب -->
+                    <a href="https://wa.me/962782648502?text=أرغب%20في%20شراء%20برنامج%20طباعة%20الشيكات"
+                       target="_blank" class="btn btn-outline">
+                        استفسار سريع عبر الواتساب
+                    </a>
+                </div>
+
+                <div class="hero-meta">
+                    <div class="hero-meta-item">
+                        <strong>وقت التركيب:</strong> أقل من 10 دقائق
+                    </div>
+                    <div class="hero-meta-item">
+                        <strong>الدعم:</strong> واتساب / أونلاين عن بُعد
+                    </div>
+                    <div class="hero-meta-item">
+                        <strong>مناسب لـ:</strong> شركات، مكاتب محاسبة، أفراد
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="hero-card">
+                    <div class="hero-card-header">
+                        <div class="hero-card-title">نموذج شيك جاهز للطباعة</div>
+                        <div class="hero-card-pill">معاينة سريعة</div>
+                    </div>
+                    <div class="hero-card-body">
+                        <div class="hero-code-line">
+                            <span class="hero-code-label">المستفيد:</span>
+                            <span class="hero-code-value">شركة النور للتجارة العامة</span>
+                        </div>
+                        <div class="hero-code-line">
+                            <span class="hero-code-label">المبلغ:</span>
+                            <span class="hero-code-value">١٬٨٥٠٫٠٠ دينار أردني</span>
+                        </div>
+                        <div class="hero-code-line">
+                            <span class="hero-code-label">المبلغ كتابة:</span>
+                            <span class="hero-code-value">ألف وثمانمائة وخمسون ديناراً فقط لا غير</span>
+                        </div>
+                        <div class="hero-code-line">
+                            <span class="hero-code-label">تاريخ الاستحقاق:</span>
+                            <span class="hero-code-value">15 / 11 / 2025</span>
+                        </div>
+
+                        <div class="hero-status">
+                            <div class="hero-status-badge">
+                                ✓ جاهز للطباعة
+                            </div>
+                            <div>يعمل على إكسل بنظام ويندوز</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">مزايا برنامج طباعة الشيكات</h2>
+                <p class="section-subtitle">
+                    كل ما تحتاجه لطباعة الشيكات بشكل منظم، دقيق، وسريع.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧾</div>
+                    <div class="feature-title">واجهة إدخال سهلة</div>
+                    <div class="feature-text">
+                        شاشة إدخال عربية بسيطة لإضافة بيانات الشيك (المستفيد، المبلغ، التاريخ، البنك…)
+                        بدون أي تعقيد تقني.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🖨️</div>
+                    <div class="feature-title">طباعة دقيقة على الشيك</div>
+                    <div class="feature-text">
+                        نموذج شيك مضبوط المقاسات، بحيث تطبع مباشرة على شيكات البنك المعتمدة
+                        مع إمكانية التعديل حسب تصميم البنك.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <div class="feature-title">أرشيف شيكات تلقائي</div>
+                    <div class="feature-text">
+                        كل شيك تتم طباعته يتم حفظه تلقائياً في جدول بيانات، مما يسهّل الرجوع
+                        لأي شيك سابق وطباعة التقارير عند الحاجة.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <div class="feature-title">تحويل المبلغ إلى حروف</div>
+                    <div class="feature-text">
+                        كتابة المبلغ رقماً ويتم تحويله تلقائياً إلى حروف عربية في خانة "المبلغ كتابة"
+                        لتقليل الأخطاء اليدوية.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-title">ترخيص دائم</div>
+                    <div class="feature-text">
+                        ترخيص دائم للجهاز مع إمكانية نقل الترخيص لجهاز آخر حسب الاتفاق،
+                        دون اشتراكات شهرية.
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-title">تركيب ودعم عن بُعد</div>
+                    <div class="feature-text">
+                        مساعدتك في التركيب لأول مرة عبر واتساب أو برنامج تحكم عن بُعد،
+                        مع دعم فني لأي استفسار.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">باقات الأسعار</h2>
+                <p class="section-subtitle">
+                    اختر الخطة المناسبة لحجم عملك، وتواصل معنا لتأكيد السعر النهائي حسب بلدك وطريقة الدفع.
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-name">ترخيص فردي</div>
+                    <div class="pricing-desc">للمستخدم الواحد أو المكتب الصغير.</div>
+                    <div class="pricing-price">20 دينار</div>
+                    <div class="pricing-period">ترخيص لمرة واحدة على جهاز واحد</div>
+                    <ul class="pricing-list">
+                        <li>وظائف كاملة لطباعة الشيكات</li>
+                        <li>أرشفة الشيكات على ملف إكسل واحد</li>
+                        <li>تركيب عن بُعد لمرة واحدة</li>
+                        <li>دعم فني لمدة شهر</li>
+                    </ul>
+                    <a href="https://wa.me/962782648502?text=أرغب%20في%20شراء%20ترخيص%20فردي%20لبرنامج%20طباعة%20الشيكات"
+                       class="btn btn-outline" target="_blank">
+                        اطلب الترخيص الفردي
+                    </a>
+                </div>
+
+                <div class="pricing-card highlight">
+                    <div class="pricing-chip">الأكثر طلباً</div>
+                    <div class="pricing-name">ترخيص شركة صغيرة</div>
+                    <div class="pricing-desc">للمؤسسات التي لديها حتى 3 مستخدمين.</div>
+                    <div class="pricing-price">35 دينار</div>
+                    <div class="pricing-period">حتى 3 أجهزة في نفس الشركة</div>
+                    <ul class="pricing-list">
+                        <li>تخصيص نموذج الشيك حسب البنك</li>
+                        <li>إمكانية إضافة أكثر من بنك</li>
+                        <li>دعم فني لمدة 3 أشهر</li>
+                        <li>جلسة تدريب قصيرة أونلاين</li>
+                    </ul>
+                    <a href="https://wa.me/962782648502?text=أرغب%20في%20الحصول%20على%20ترخيص%20شركة%20صغيرة%20لبرنامج%20طباعة%20الشيكات"
+                       class="btn btn-primary" target="_blank">
+                        تواصل لعرض السعر
+                    </a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-name">ترخيص مؤسسة / عدد كبير</div>
+                    <div class="pricing-desc">للبنوك، الشركات الكبيرة، والمجموعات.</div>
+                    <div class="pricing-price">حسب الاتفاق</div>
+                    <div class="pricing-period">خصومات خاصة للعقود الكبيرة</div>
+                    <ul class="pricing-list">
+                        <li>تخصيص كامل للنموذج والواجهة</li>
+                        <li>دمج مع نظام داخلي (حسب الإمكانية)</li>
+                        <li>دعم فني ممتد</li>
+                        <li>إمكانية التعاقد السنوي</li>
+                    </ul>
+                    <a href="mailto:oramjr80@gmail.com?subject=ترخيص%20مؤسسة%20-%20برنامج%20طباعة%20الشيكات"
+                       class="btn btn-outline">
+                        راسلنا لعرض خاص
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">كيف يعمل البرنامج؟</h2>
+                <p class="section-subtitle">
+                    خطوات بسيطة من الشراء وحتى أول شيك تطبعه بنجاح.
+                </p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-title">التواصل والشراء</div>
+                    <div class="step-text">
+                        تتواصل معنا عبر الواتساب أو البريد، نرسل لك تفاصيل السعر وطريقة الدفع،
+                        وبعد الدفع تستلم رابط التحميل وملف التفعيل.
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-title">التركيب والتجربة</div>
+                    <div class="step-text">
+                        نقوم معك بخطوات التركيب عن بُعد، نضبط مقاسات الشيك حسب البنك الذي تتعامل معه،
+                        وتجرب أول طباعة على شيك تجريبي.
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-title">الاعتماد والاستخدام اليومي</div>
+                    <div class="step-text">
+                        بعد التأكد من دقة الطباعة، يمكنك استخدام البرنامج بشكل يومي لطباعة وأرشفة الشيكات،
+                        مع دعم متواصل لأي استفسار.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ & Contact -->
+    <section id="faq">
+        <div class="container faq-grid">
+            <div>
+                <div class="section-header" style="text-align:right; margin-bottom:18px;">
+                    <h2 class="section-title">الأسئلة الشائعة</h2>
+                    <p class="section-subtitle">
+                        إن كان لديك استفسار آخر، لا تتردد في مراسلتنا.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">هل يعمل البرنامج بدون إنترنت؟</div>
+                    <div class="faq-a">
+                        نعم، البرنامج مبني على ملف إكسل مع ماكرو، ويعمل بالكامل على جهازك بدون الحاجة إلى اتصال دائم بالإنترنت،
+                        عدا وقت الدعم أو التفعيل عند الحاجة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">ما هي متطلبات التشغيل؟</div>
+                    <div class="faq-a">
+                        نظام تشغيل ويندوز، ووجود Microsoft Excel (يفضّل 2013 أو أحدث) مع السماح بتشغيل وحدات الماكرو (Macros).
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">هل يمكن تعديل النموذج ليناسب بنكاً معيناً؟</div>
+                    <div class="faq-a">
+                        نعم، يتم ضبط مقاسات الحقول حسب نموذج الشيك الذي تستعمله، ويمكن تعديلها لاحقاً إن تغيّر تصميم الشيك.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">هل يمكن استعمال البرنامج على أكثر من جهاز؟</div>
+                    <div class="faq-a">
+                        يعتمد على نوع الترخيص الذي تختاره (فردي، شركة، مؤسسة). يمكنك الاتفاق على عدد الأجهزة عند الشراء.
+                    </div>
+                </div>
+            </div>
+
+            <div id="contact">
+                <div class="contact-card">
+                    <div class="contact-title">تواصل معنا لطلب البرنامج</div>
+                    <div class="contact-text">
+                        املأ البيانات التالية وسنعود إليك بالتفاصيل، أو تواصل مباشرة عبر الواتساب.
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); alert('تم إرسال النموذج (شكل تجريبي، تحتاج ربطه ببريد أو خدمة حقيقية).');">
+                        <div class="contact-row">
+                            <label class="contact-label" for="name">الاسم</label>
+                            <input class="contact-input" id="name" type="text" placeholder="اكتب اسمك أو اسم شركتك" required />
+                        </div>
+                        <div class="contact-row">
+                            <label class="contact-label" for="email">البريد الإلكتروني</label>
+                            <input class="contact-input" id="email" type="email" placeholder="example@email.com" />
+                        </div>
+                        <div class="contact-row">
+                            <label class="contact-label" for="msg">رسالتك</label>
+                            <textarea class="contact-textarea" id="msg" placeholder="عرّفنا باحتياجك وعدد المستخدمين المتوقعين..."></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit" style="width: 100%; justify-content: center;">
+                            إرسال الطلب (تجريبي)
+                        </button>
+
+                        <div style="margin-top:10px; font-size:0.8rem; color:#9ca3af;">
+                            أو راسلنا مباشرة على واتساب:
+                            <!-- عدّل رقم الواتساب -->
+                            <a href="https://wa.me/962782648502" target="_blank" style="color:#a5b4fc; text-decoration:underline;">
+                                962782648502+
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-row">
+        <div>
+            © <span id="year"></span> برنامج طباعة الشيكات. جميع الحقوق محفوظة.
+        </div>
+        <div class="footer-links">
+            <a href="#home">الرئيسية</a>
+            <a href="#pricing">الأسعار</a>
+            <a href="#contact">التواصل</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // سنة ديناميكية في الفوتر
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // قائمة الموبايل
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("navLinks");
+    const navCta = document.getElementById("navCta");
+
+    navToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("mobile-open");
+        navCta.classList.toggle("mobile-open");
+    });
+</script>
+
+</body>
+</html>
